@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AGRO FAZU — Portal interno</title>
+</head>
+<body style="margin:0;font-family:Arial,sans-serif;background:#104526;color:#fff">
+<div id="c" style="padding:60px 20px;text-align:center;font-size:16px">Carregando o portal da AGRO FAZU...</div>
+<script>
+fetch('https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec', { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: 'pagina' }) })
+  .then(function (r) { return r.json(); })
+  .then(function (r) { if (!r.ok) throw new Error(); document.open(); document.write(r.html); document.close(); })
+  .catch(function () { document.getElementById('c').textContent = 'Não foi possível carregar o portal. Verifique a internet e recarregue a página.'; });
+</script>
+</body>
+</html>
