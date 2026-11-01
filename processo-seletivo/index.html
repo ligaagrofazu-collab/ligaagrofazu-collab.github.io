@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Processo seletivo — AGRO FAZU</title>
+<meta name="description" content="A AGRO FAZU, Liga Acadêmica de Agronegócio e Inovação da FAZU, está selecionando novos membros. 30 vagas, abertas a estudantes de todos os cursos da FAZU.">
+<meta name="theme-color" content="#104526">
+<meta property="og:title" content="Processo seletivo — AGRO FAZU">
+<meta property="og:description" content="Faça parte da Liga Acadêmica de Agronegócio e Inovação da FAZU. 30 vagas, abertas a todos os cursos.">
+<meta property="og:image" content="https://ligaagrofazu-collab.github.io/icon-512.png">
+<meta property="og:type" content="website">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--verde:#104526;--verde-escuro:#0B3A1F;--laranja:#E5800C;--laranja-claro:#F5A54A;--fundo:#F6F7F4;--texto:#1D2A22;--suave:#44544A;--borda:#E1E8E3}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"Open Sans",Arial,sans-serif;color:var(--texto);background:var(--fundo);line-height:1.55;font-size:16px}
+h1,h2,h3,.titulo{font-family:Montserrat,Arial,sans-serif}
+a{color:var(--verde)}a:hover{color:#B35F00}
+.caixa{max-width:1120px;margin:0 auto;padding:0 24px}
+.botao{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 28px;border-radius:999px;font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;text-decoration:none;border:0}
+.botao-laranja{background:var(--laranja);color:#0B2E18}
+.botao-laranja:hover{background:#F2922B;color:#0B2E18}
+.botao-laranja[aria-disabled="true"]{cursor:default}
+.botao-contorno{color:#fff;border:2px solid rgba(255,255,255,.6);padding:11px 26px}
+.botao-contorno:hover{color:#fff;background:rgba(255,255,255,.1)}
+
+/* Topo */
+.topo{background:var(--verde);color:#fff;border-bottom:6px solid var(--laranja)}
+.topo .caixa{display:flex;flex-wrap:wrap;align-items:center;gap:40px;padding-top:56px;padding-bottom:72px}
+.topo .texto{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px}
+.sobretitulo{font-family:Montserrat,sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--laranja-claro)}
+.topo h1{margin:0;font-weight:800;font-size:clamp(38px,6vw,56px);line-height:1.05}
+.topo p{margin:0;font-size:19px;max-width:560px;color:#E3EFE7}
+.botoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
+.topo .logo{flex:1 1 220px;display:flex;justify-content:center}
+.topo .logo img{width:100%;max-width:300px;height:auto;border-radius:50%}
+
+/* Seções */
+section{padding:56px 0}
+h2{margin:0 0 20px;font-weight:800;font-size:clamp(28px,4vw,34px);color:var(--verde);line-height:1.15}
+.intro{font-size:18px;max-width:760px;margin:0}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
+.cartao{background:#fff;border:1px solid var(--borda);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:10px}
+.cartao h3,.etapa h3{margin:0;font-size:19px;color:var(--verde)}
+.cartao p,.etapa p{margin:0;font-size:15.5px;color:var(--suave)}
+.bloco{background:#fff;border:1px solid var(--borda);border-radius:22px;padding:36px}
+.requisitos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;font-size:16.5px}
+.requisitos div{display:flex;gap:12px;align-items:flex-start}
+.requisitos svg{flex-shrink:0;margin-top:2px}
+.etapa{display:flex;flex-direction:column;gap:10px}
+.numero{width:48px;height:48px;border-radius:50%;background:var(--laranja);color:#0B2E18;font-family:Montserrat,sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center}
+.datas{background:var(--verde);color:#fff}
+.datas h2{color:#fff}
+.data{border:1px solid rgba(255,255,255,.25);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:6px}
+.data span{font-size:14px;color:#CFE0D5;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
+.data strong{font-family:Montserrat,sans-serif;font-weight:800;font-size:24px;color:var(--laranja-claro)}
+.final{text-align:center;padding:72px 0}
+.final .caixa{display:flex;flex-direction:column;align-items:center;gap:18px}
+.final h2{margin:0;font-size:clamp(30px,5vw,40px)}
+.final p{margin:0;font-size:18px;color:var(--suave);max-width:560px}
+.contato{font-size:16px;font-weight:600}
+footer{background:var(--verde-escuro);color:#CFE0D5;font-size:14px}
+footer .caixa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding-top:24px;padding-bottom:24px}
+@media (max-width:600px){
+  .topo .caixa{padding-top:36px;padding-bottom:48px;gap:28px}
+  .topo .logo{order:-1;justify-content:flex-start}
+  .topo .logo img{max-width:150px}
+  .topo p{font-size:17px}
+  section{padding:44px 0}
+  .bloco{padding:24px}
+}
+</style>
+</head>
+<body>
+
+<header class="topo">
+  <div class="caixa">
+    <div class="texto">
+      <span class="sobretitulo">Processo seletivo</span>
+      <h1>Faça parte da AGRO FAZU</h1>
+      <p>A Liga Acadêmica de Agronegócio e Inovação da FAZU está selecionando novos membros. São 30 vagas, abertas a estudantes de todos os cursos.</p>
+      <div class="botoes">
+        <!-- Quando o Forms for publicado: trocar por <a class="botao botao-laranja" href="LINK DO FORMS">Quero me inscrever</a> -->
+        <a class="botao botao-laranja" role="link" aria-disabled="true">Inscrições em breve</a>
+        <a class="botao botao-contorno" href="#como-funciona">Como funciona</a>
+      </div>
+    </div>
+    <div class="logo"><img src="/icon-512.png" alt="Logo da AGRO FAZU" width="300" height="300"></div>
+  </div>
+</header>
+
+<main>
+  <section>
+    <div class="caixa">
+      <h2>Quem somos</h2>
+      <p class="intro">Uma liga de estudantes que aproxima a sala de aula da realidade do agronegócio, com experiências práticas, inovação e contato com produtores, empresas e profissionais. A liga é reconhecida pela FAZU e tem como orientador o Prof. Matheus Alves.</p>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="caixa">
+      <h2>O que você vai fazer</h2>
+      <div class="grade">
+        <div class="cartao">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-5h4v5"/></svg>
+          <h3>Visitas técnicas</h3>
+          <p>Conhecer de perto fazendas, indústrias e empresas do agro.</p>
+        </div>
+        <div class="cartao">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg>
+          <h3>Cases reais</h3>
+          <p>Resolver problemas reais de empresas e fazendas, como um projeto de irrigação.</p>
+        </div>
+        <div class="cartao">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg>
+          <h3>Estudos direcionados</h3>
+          <p>Entender a fundo como algo funciona, do campo à indústria.</p>
+        </div>
+        <div class="cartao">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg>
+          <h3>Palestras e contatos</h3>
+          <p>Conversar com produtores, empresas, egressos e profissionais.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section style="padding-top:0">
+    <div class="caixa">
+      <div class="bloco">
+        <h2>Quem pode participar</h2>
+        <div class="requisitos">
+          <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Estudantes de todos os cursos</b> da FAZU.</span></div>
+          <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Não precisa de experiência.</b> O que mais conta é empenho e dedicação.</span></div>
+          <div><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg><span><b>Reuniões às quartas, às 18h</b>, na FAZU.</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="como-funciona" style="padding-top:0">
+    <div class="caixa">
+      <h2>Como funciona a seleção</h2>
+      <div class="grade">
+        <div class="etapa"><span class="numero">1</span><h3>Inscrição</h3><p>Pelo formulário online, em poucos minutos.</p></div>
+        <div class="etapa"><span class="numero">2</span><h3>Entrevista</h3><p>Uma conversa presencial de cerca de 15 minutos.</p></div>
+        <div class="etapa"><span class="numero">3</span><h3>Resultado</h3><p>Enviado pelo e-mail informado na inscrição.</p></div>
+        <div class="etapa"><span class="numero">4</span><h3>Integração</h3><p>Você já participa das atividades da liga no mesmo semestre.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="datas">
+    <div class="caixa">
+      <h2>Datas</h2>
+      <div class="grade">
+        <div class="data"><span>Inscrições</span><strong>Em breve</strong></div>
+        <div class="data"><span>Entrevistas</span><strong>Em breve</strong></div>
+        <div class="data"><span>Resultado</span><strong>Em breve</strong></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="final">
+    <div class="caixa">
+      <h2>Quer fazer parte?</h2>
+      <p>As inscrições abrem em breve. Volte aqui ou fale com a gente.</p>
+      <a class="botao botao-laranja" role="link" aria-disabled="true">Inscrições em breve</a>
+      <a class="contato" href="mailto:ligaagrofazu@gmail.com">ligaagrofazu@gmail.com</a>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="caixa">
+    <span>AGRO FAZU — Liga Acadêmica de Agronegócio e Inovação da FAZU</span>
+    <span>Uberaba/MG</span>
+  </div>
+</footer>
+
+</body>
+</html>
