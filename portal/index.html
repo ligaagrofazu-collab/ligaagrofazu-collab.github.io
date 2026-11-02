@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow">
+<title>AGRO FAZU — Portal interno</title>
+<link rel="manifest" href="/manifest.webmanifest">
+<meta name="theme-color" content="#104526">
+<link rel="icon" type="image/png" href="/favicon.png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="AGRO FAZU">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<style>
+html,body{margin:0;height:100%}
+body{font-family:Arial,sans-serif;background:#104526;color:#fff}
+#c{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;text-align:center}
+#c img{width:180px;height:180px;margin-bottom:28px}
+.giro{width:30px;height:30px;border:3px solid rgba(255,255,255,.25);border-top-color:#E5800C;border-radius:50%;animation:g .8s linear infinite;margin-bottom:14px}
+@keyframes g{to{transform:rotate(360deg)}}
+#msg{font-size:15px;opacity:.9;max-width:300px;line-height:1.4}
+#denovo{display:none;margin-top:18px;background:#E5800C;color:#fff;border:0;border-radius:22px;padding:11px 26px;font-size:15px;cursor:pointer}
+</style>
+</head>
+<body>
+<div id="c">
+  <img src="/icon-512.png" alt="AGRO FAZU">
+  <div class="giro" id="giro"></div>
+  <div id="msg">Carregando o portal da AGRO FAZU...</div>
+  <button id="denovo" onclick="location.reload()">Tentar de novo</button>
+</div>
+<script>
+// App instalável: registra o "service worker" (necessário para instalar no celular).
+if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(function () {}); }
+
+// Tags do app que precisam continuar na página depois que o portal é carregado.
+var APP_HEAD = '<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#104526">' +
+  '<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">' +
+  '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">' +
+  '<meta name="apple-mobile-web-app-title" content="AGRO FAZU"><meta name="apple-mobile-web-app-status-bar-style" content="default">' +
+  '<meta name="robots" content="noindex, nofollow">';
+
+fetch('https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec', { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: 'pagina' }) })
+  .then(function (r) { return r.json(); })
+  .then(function (r) {
+    if (!r.ok) throw new Error();
+    var html = r.html.replace(/<head>/i, '<head>' + APP_HEAD);
+    document.open(); document.write(html); document.close();
+  })
+  .catch(function () {
+    document.getElementById('giro').style.display = 'none';
+    document.getElementById('msg').textContent = navigator.onLine === false
+      ? 'Sem internet. Conecte-se e tente de novo.'
+      : 'Não foi possível carregar o portal. Verifique a internet e tente de novo.';
+    document.getElementById('denovo').style.display = 'inline-block';
+  });
+</script>
+</body>
+</html>
