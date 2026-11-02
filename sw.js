@@ -1,8 +1,8 @@
 // AGRO FAZU — app instalável. Guarda só a tela de abertura e os ícones;
 // os dados do portal vêm sempre do servidor (nada da liga fica salvo aqui).
 // Também recebe as notificações: quando uma chega, pergunta ao portal quais são os avisos novos e mostra na tela.
-const CACHE = 'agrofazu-v2';
-const ARQUIVOS = ['/', '/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/favicon.png'];
+const CACHE = 'agrofazu-v3';
+const ARQUIVOS = ['/portal/', '/portal/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/favicon.png'];
 const API = 'https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec';
 
 self.addEventListener('install', function (e) {
@@ -23,7 +23,7 @@ self.addEventListener('fetch', function (e) {
     if (resp.ok) { const copia = resp.clone(); caches.open(CACHE).then(function (c) { c.put(req, copia); }); }
     return resp;
   }).catch(function () {
-    return caches.match(req).then(function (r) { return r || caches.match('/index.html'); });
+    return caches.match(req).then(function (r) { return r || caches.match('/portal/index.html'); });
   }));
 });
 
@@ -54,6 +54,6 @@ self.addEventListener('notificationclick', function (e) {
     for (let i = 0; i < janelas.length; i++) {
       if ('focus' in janelas[i]) { janelas[i].postMessage({ tipo: 'abrir', tela: tela }); return janelas[i].focus(); }
     }
-    return self.clients.openWindow('/' + (tela ? '#' + tela : ''));
+    return self.clients.openWindow('/portal/' + (tela ? '#' + tela : ''));
   }));
 });
