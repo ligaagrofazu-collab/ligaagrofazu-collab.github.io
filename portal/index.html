@@ -87,7 +87,8 @@ var nova = pedir({ fn: 'pagina' }).then(function (r) {
 });
 
 if (guardada) {
-  abrir(guardada);
+  // Espera a página de abertura terminar de ser lida; só então troca pela tela guardada
+  setTimeout(function () { abrir(guardada); }, 0);
   // Se o portal foi atualizado desde a última visita, avisa e oferece recarregar
   nova.then(function (html) {
     if (html === guardada) return;
