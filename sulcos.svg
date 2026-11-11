@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 520" preserveAspectRatio="xMidYMid slice">
+  <g fill="none" stroke-linecap="butt">
+    <path d="M-40 250 Q 300 120 700 60" stroke="#F4F7F4" stroke-width="30"/>
+    <path d="M-40 312 Q 300 172 700 122" stroke="#E07A0B" stroke-width="36"/>
+    <path d="M-40 378 Q 300 228 700 190" stroke="#F4F7F4" stroke-width="30"/>
+    <path d="M-40 448 Q 300 290 700 262" stroke="#E07A0B" stroke-width="40"/>
+    <path d="M-40 524 Q 300 356 700 340" stroke="#F4F7F4" stroke-width="32"/>
+    <path d="M-40 606 Q 300 428 700 424" stroke="#E07A0B" stroke-width="44"/>
+    <path d="M-40 694 Q 300 506 700 514" stroke="#F4F7F4" stroke-width="34"/>
+  </g>
+</svg>

@@ -15,8 +15,9 @@
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilo.css">
+<link rel="stylesheet" href="anima.css">
 </head>
 <body>
 <header class="cabecalho">
@@ -36,28 +37,33 @@
     <p>Estudantes da FAZU que aprendem com experiências práticas, inovação e contato direto com produtores, empresas e profissionais do agro.</p>
     <div class="botoes"><a class="botao botao-laranja" href="quem-somos.html">Conheça a liga</a><a class="botao botao-contorno" href="produtores-e-empresas.html">Para produtores e empresas</a></div>
   </div>
-  <div class="logo"><img src="icon-512.png" alt="Logo da AGRO FAZU" width="300" height="300"></div>
 </div></section>
+
+<div class="faixa" aria-hidden="true"><div class="faixa-trilho"><span>Visitas técnicas</span><span>Cases</span><span>Estudos direcionados</span><span>Palestras</span><span>Dias de campo</span><span>Parcerias</span></div></div>
 
 <section><div class="caixa lado-a-lado">
   <div>
     <h2>Quem somos</h2>
     <p class="intro">Uma liga acadêmica reconhecida pela FAZU, que integra estudantes para desenvolver estudos, projetos e parcerias no agronegócio. Complementamos a formação com prática, inovação e relacionamento com o setor.</p>
     <p class="intro">Orientação do <b>Prof. Matheus Alves</b>.</p>
-    <a href="quem-somos.html" style="font-family:Montserrat,sans-serif;font-weight:700">Saiba mais sobre a liga →</a>
+    <a href="quem-somos.html" class="mais">Saiba mais sobre a liga</a>
   </div>
-  <div class="foto">[Foto da equipe — quando houver]</div>
+  <div class="foto" aria-hidden="true"></div>
 </div></section>
 
 <section style="padding-top:0"><div class="caixa">
   <h2>O que fazemos</h2>
   <div class="grade">
-    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-5h4v5"/></svg><h3>Visitas técnicas</h3><p>Fazendas, indústrias e empresas do agro, vistas de perto.</p></div>
-    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><h3>Cases</h3><p>Problemas reais de empresas e fazendas, como um projeto de irrigação.</p></div>
-    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><h3>Estudos direcionados</h3><p>Entender a fundo como algo funciona, do campo à indústria.</p></div>
-    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><h3>Palestras e eventos</h3><p>Encontros com produtores, egressos, empresas e profissionais.</p></div>
+    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V8l7-5 7 5v13"/><path d="M10 21v-5h4v5"/></svg><h3>Visitas técnicas</h3><p>Fazendas, indústrias e empresas do agro, vistas de perto.</p>
+      <div class="cartao-mais"><div><p>Cada visita tem planejamento antes e relatório depois.</p><p><b>Para produtores e empresas:</b> abra a sua fazenda, indústria ou empresa para uma visita dos estudantes.</p><a class="mais" href="produtores-e-empresas.html">Receber uma visita técnica</a></div></div></div>
+    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8 12l3 3 5-6"/></svg><h3>Cases</h3><p>Problemas reais de empresas e fazendas, como um projeto de irrigação.</p>
+      <div class="cartao-mais"><div><p>A liga estuda o problema e propõe soluções, com orientação docente.</p><p><b>Para produtores e empresas:</b> traga um problema real do seu negócio para a liga estudar.</p><a class="mais" href="produtores-e-empresas.html">Propor um case</a></div></div></div>
+    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19V5a2 2 0 0 1 2-2h12v18H6a2 2 0 0 1-2-2z"/><path d="M8 7h6M8 11h6"/></svg><h3>Estudos direcionados</h3><p>Entender a fundo como algo funciona, do campo à indústria.</p>
+      <div class="cartao-mais"><div><p>Um exemplo: biocombustível a partir do caroço de algodão.</p><p>Os temas seguem as áreas de atuação da liga, como planejamento de safra, manejo de pragas e irrigação.</p><a class="mais" href="o-que-fazemos.html#areas">Ver as áreas de atuação</a></div></div></div>
+    <div class="cartao"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#E5800C" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.9M16 3.1a4 4 0 0 1 0 7.8"/></svg><h3>Palestras e eventos</h3><p>Encontros com produtores, egressos, empresas e profissionais.</p>
+      <div class="cartao-mais"><div><p>Palestras e grupos de estudo com professores e profissionais do mercado, além de feiras e dias de campo.</p><p><b>Para produtores e empresas:</b> compartilhe a sua experiência com os estudantes da FAZU.</p><a class="mais" href="produtores-e-empresas.html">Apresentar uma palestra</a></div></div></div>
   </div>
-  <p style="margin-top:20px"><a href="o-que-fazemos.html" style="font-family:Montserrat,sans-serif;font-weight:700">Ver todas as áreas de atuação →</a></p>
+  <p style="margin-top:20px"><a href="o-que-fazemos.html" class="mais">Ver todas as áreas de atuação</a></p>
 </div></section>
 
 <section style="padding-top:0"><div class="caixa">
@@ -67,7 +73,7 @@
   </div>
 </div></section>
 <section class="chamada"><div class="caixa"><div><h2>Quer fazer parte da liga?</h2><p>O processo seletivo é aberto a estudantes de todos os cursos da FAZU.</p></div>
-<a class="botao botao-laranja" href="https://ligaagrofazu-collab.github.io/processo-seletivo/">Ver o processo seletivo</a></div></section>
+<a class="botao botao-laranja" href="processo-seletivo/">Ver o processo seletivo</a></div></section>
 </main>
 <footer class="rodape">
   <div class="caixa">
@@ -80,7 +86,7 @@
       <span class="titulo">Páginas</span>
       <a href="quem-somos.html">Quem somos</a>
       <a href="o-que-fazemos.html">O que fazemos</a>
-      <a href="https://ligaagrofazu-collab.github.io/processo-seletivo/">Processo seletivo</a>
+      <a href="processo-seletivo/">Processo seletivo</a>
       <a href="portal/">Área do membro</a>
     </div>
     <div class="col">
@@ -91,5 +97,6 @@
     </div>
   </div>
 </footer>
+<script src="anima.js" defer></script>
 </body>
 </html>

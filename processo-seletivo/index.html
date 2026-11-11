@@ -14,75 +14,84 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@100..125,400..800&display=swap" rel="stylesheet">
 <style>
-:root{--verde:#104526;--verde-escuro:#0B3A1F;--laranja:#E5800C;--laranja-claro:#F5A54A;--fundo:#F6F7F4;--texto:#1D2A22;--suave:#44544A;--borda:#E1E8E3}
+:root{--mata:#0F3D22;--mata-2:#17502E;--mata-noite:#0A2C18;--colheita:#E07A0B;--colheita-texto:#A35400;--tinta:#15241B;--suave:#4A5A50;--linha:#DCE3DE;--nevoa:#F2F5F2}
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;font-family:"Open Sans",Arial,sans-serif;color:var(--texto);background:var(--fundo);line-height:1.55;font-size:16px}
-h1,h2,h3,.titulo{font-family:Montserrat,Arial,sans-serif}
-a{color:var(--verde)}a:hover{color:#B35F00}
-.caixa{max-width:1120px;margin:0 auto;padding:0 24px}
-.botao{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:13px 28px;border-radius:999px;font-family:Montserrat,sans-serif;font-weight:700;font-size:16px;text-decoration:none;border:0}
-.botao-laranja{background:var(--laranja);color:#0B2E18}
-.botao-laranja:hover{background:#F2922B;color:#0B2E18}
-.botao-laranja[aria-disabled="true"]{cursor:default}
-.botao-contorno{color:#fff;border:2px solid rgba(255,255,255,.6);padding:11px 26px}
-.botao-contorno:hover{color:#fff;background:rgba(255,255,255,.1)}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{margin:0;font-family:Archivo,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6;color:var(--tinta);background:#fff;-webkit-font-smoothing:antialiased}
+h1,h2,h3,.botao,.numero,.data strong{font-family:Archivo,"Segoe UI",Arial,sans-serif;font-stretch:112%}
+a{color:var(--mata);text-underline-offset:3px}a:hover{color:var(--colheita-texto)}
+a:focus-visible,.botao:focus-visible{outline:3px solid var(--colheita);outline-offset:3px;border-radius:4px}
+.caixa{max-width:1160px;margin:0 auto;padding:0 28px}
+.botao{display:inline-flex;align-items:center;justify-content:center;min-height:50px;padding:13px 26px;border-radius:8px;border:0;font-weight:600;font-size:16px;line-height:1.2;text-decoration:none;transition:background-color .15s,border-color .15s}
+.botao-laranja{background:var(--colheita);color:#1B1206}
+.botao-laranja:hover{background:#F08C1F;color:#1B1206}
+.botao-contorno{color:#fff;border:1.5px solid rgba(255,255,255,.55);padding:11.5px 24.5px}
+.botao-contorno:hover{color:#fff;border-color:#fff;background:rgba(255,255,255,.08)}
 
 /* Topo */
-.topo{background:var(--verde);color:#fff;border-bottom:6px solid var(--laranja)}
-.topo .caixa{display:flex;flex-wrap:wrap;align-items:center;gap:40px;padding-top:56px;padding-bottom:72px}
-.topo .texto{flex:999 1 520px;min-width:0;display:flex;flex-direction:column;gap:20px}
-.sobretitulo{font-family:Montserrat,sans-serif;font-weight:700;font-size:14px;letter-spacing:3px;text-transform:uppercase;color:var(--laranja-claro)}
-.topo h1{margin:0;font-weight:800;font-size:clamp(38px,6vw,56px);line-height:1.05}
-.topo p{margin:0;font-size:19px;max-width:560px;color:#E3EFE7}
-.botoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:8px}
-.topo .logo{flex:1 1 220px;display:flex;justify-content:center}
-.topo .logo img{width:100%;max-width:300px;height:auto;border-radius:50%}
+.topo{position:relative;overflow:hidden;background:var(--mata);color:#fff}
+.topo::after{content:"";position:absolute;top:0;right:0;bottom:0;width:44%;background:url(/sulcos.svg) right bottom/cover no-repeat;-webkit-mask-image:linear-gradient(to right,transparent 0,#000 38%);mask-image:linear-gradient(to right,transparent 0,#000 38%);pointer-events:none}
+.topo .caixa{position:relative;z-index:1;padding-top:96px;padding-bottom:104px}
+.topo .texto{max-width:640px;display:flex;flex-direction:column;gap:22px}
+.marca{display:flex;align-items:center;gap:12px;color:#fff;text-decoration:none;font-weight:600;font-size:15px}
+.marca:hover{color:#fff}
+.marca img{width:40px;height:40px;border-radius:50%}
+.topo h1{margin:0;font-weight:700;font-stretch:118%;font-size:clamp(40px,6.2vw,70px);line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
+.topo p{margin:0;max-width:33em;font-size:19px;color:#CFDFD4}
+.botoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:12px}
 
 /* Seções */
-section{padding:56px 0}
-h2{margin:0 0 20px;font-weight:800;font-size:clamp(28px,4vw,34px);color:var(--verde);line-height:1.15}
-.intro{font-size:18px;max-width:760px;margin:0}
-.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px}
-.cartao{background:#fff;border:1px solid var(--borda);border-radius:18px;padding:24px;display:flex;flex-direction:column;gap:10px}
-.cartao h3,.etapa h3{margin:0;font-size:19px;color:var(--verde)}
-.cartao p,.etapa p{margin:0;font-size:15.5px;color:var(--suave)}
-.bloco{background:#fff;border:1px solid var(--borda);border-radius:22px;padding:36px}
-.requisitos{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:20px;font-size:16.5px}
+section{padding:96px 0}
+h2{margin:0 0 20px;font-weight:700;font-size:clamp(28px,3.6vw,40px);line-height:1.1;letter-spacing:-.01em;color:var(--mata);text-wrap:balance}
+.intro{font-size:19px;max-width:36em;margin:0}
+.grade{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:8px 48px}
+.cartao{display:flex;flex-direction:column;gap:10px;padding:28px 0 12px;border-top:1px solid var(--linha)}
+.cartao>svg{margin-bottom:6px}
+.cartao h3,.etapa h3{margin:0;font-weight:700;font-size:20px;line-height:1.25;color:var(--mata)}
+.cartao p,.etapa p{margin:0;font-size:16px;color:var(--suave)}
+.bloco{background:var(--nevoa);border-radius:12px;padding:52px}
+.requisitos{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px 40px;font-size:17px}
 .requisitos div{display:flex;gap:12px;align-items:flex-start}
-.requisitos svg{flex-shrink:0;margin-top:2px}
-.etapa{display:flex;flex-direction:column;gap:10px}
-.numero{width:48px;height:48px;border-radius:50%;background:var(--laranja);color:#0B2E18;font-family:Montserrat,sans-serif;font-weight:800;font-size:20px;display:flex;align-items:center;justify-content:center}
-.datas{background:var(--verde);color:#fff}
+.requisitos svg{flex-shrink:0;margin-top:3px}
+/* As etapas são uma sequência: a linha liga os números */
+#como-funciona .grade{gap:32px 32px}
+.etapa{position:relative;display:flex;flex-direction:column;gap:10px}
+.etapa::before{content:"";position:absolute;top:23px;left:56px;right:-24px;height:1px;background:var(--linha)}
+.etapa:last-child::before{display:none}
+.numero{display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin-bottom:8px;border-radius:50%;background:var(--mata);color:#fff;font-weight:700;font-size:19px}
+.datas{background:var(--mata);color:#fff}
 .datas h2{color:#fff}
-.data{border:1px solid rgba(255,255,255,.25);border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:6px}
-.data span{font-size:14px;color:#CFE0D5;text-transform:uppercase;letter-spacing:1.5px;font-weight:600}
-.data strong{font-family:Montserrat,sans-serif;font-weight:800;font-size:24px;color:var(--laranja-claro)}
-.final{text-align:center;padding:72px 0}
-.final .caixa{display:flex;flex-direction:column;align-items:center;gap:18px}
-.final h2{margin:0;font-size:clamp(30px,5vw,40px)}
-.final p{margin:0;font-size:18px;color:var(--suave);max-width:560px}
+.datas .grade{gap:16px 48px}
+.data{display:flex;flex-direction:column;gap:4px;padding:24px 0 8px;border-top:1px solid rgba(255,255,255,.22)}
+.data span{font-size:15px;color:#BFD1C5}
+.data strong{font-weight:700;font-size:26px;color:#F6B567}
+.final{padding:96px 0;background:var(--nevoa)}
+.final .caixa{display:flex;flex-direction:column;align-items:flex-start;gap:18px}
+.final h2{margin:0}
+.final p{margin:0;font-size:18px;color:var(--suave);max-width:34em}
 .contato{font-size:16px;font-weight:600}
-footer{background:var(--verde-escuro);color:#CFE0D5;font-size:14px}
-footer .caixa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding-top:24px;padding-bottom:24px}
-@media (max-width:600px){
-  .topo .caixa{padding-top:36px;padding-bottom:48px;gap:28px}
-  .topo .logo{order:-1;justify-content:flex-start}
-  .topo .logo img{max-width:150px}
+footer{background:var(--mata-noite);color:#BFD1C5;font-size:15px}
+footer .caixa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;padding-top:28px;padding-bottom:28px}
+@media (max-width:820px){
+  .topo::after{top:auto;left:0;width:100%;height:120px;background-position:center 30%;-webkit-mask-image:linear-gradient(to bottom,transparent 0,#000 60%);mask-image:linear-gradient(to bottom,transparent 0,#000 60%)}
+  .topo .caixa{padding-top:48px;padding-bottom:150px}
   .topo p{font-size:17px}
-  section{padding:44px 0}
-  .bloco{padding:24px}
+  section,.final{padding:64px 0}
+  .bloco{padding:28px 24px}
+  .etapa::before{display:none}
 }
 </style>
+<link rel="stylesheet" href="/anima.css">
 </head>
 <body>
 
 <header class="topo">
   <div class="caixa">
     <div class="texto">
-      <span class="sobretitulo">Processo seletivo</span>
+      <a class="marca" href="/"><img src="/icon-512.png" alt="" width="40" height="40">AGRO FAZU</a>
       <h1>Faça parte da AGRO FAZU</h1>
       <p>A Liga Acadêmica de Agronegócio e Inovação da FAZU está selecionando novos membros. São 30 vagas, abertas a estudantes de todos os cursos.</p>
       <div class="botoes">
@@ -91,7 +100,6 @@ footer .caixa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;
         <a class="botao botao-contorno" href="#como-funciona">Como funciona</a>
       </div>
     </div>
-    <div class="logo"><img src="/icon-512.png" alt="Logo da AGRO FAZU" width="300" height="300"></div>
   </div>
 </header>
 
@@ -184,5 +192,6 @@ footer .caixa{display:flex;flex-wrap:wrap;justify-content:space-between;gap:8px;
   </div>
 </footer>
 
+<script src="/anima.js" defer></script>
 </body>
 </html>
