@@ -6,56 +6,102 @@
 <meta name="robots" content="noindex, nofollow">
 <title>AGRO FAZU — Portal interno</title>
 <link rel="manifest" href="/manifest.webmanifest">
-<meta name="theme-color" content="#104526">
+<meta name="theme-color" content="#0F3D22">
 <link rel="icon" type="image/png" href="/favicon.png">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<link rel="preconnect" href="https://script.google.com">
+<link rel="preconnect" href="https://script.googleusercontent.com" crossorigin>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="AGRO FAZU">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <style>
 html,body{margin:0;height:100%}
-body{font-family:Arial,sans-serif;background:#104526;color:#fff}
+body{font-family:"Segoe UI",Arial,sans-serif;background:#0F3D22;color:#fff}
 #c{min-height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px;box-sizing:border-box;text-align:center}
-#c img{width:180px;height:180px;margin-bottom:28px}
-.giro{width:30px;height:30px;border:3px solid rgba(255,255,255,.25);border-top-color:#E5800C;border-radius:50%;animation:g .8s linear infinite;margin-bottom:14px}
-@keyframes g{to{transform:rotate(360deg)}}
-#msg{font-size:15px;opacity:.9;max-width:300px;line-height:1.4}
-#denovo{display:none;margin-top:18px;background:#E5800C;color:#fff;border:0;border-radius:22px;padding:11px 26px;font-size:15px;cursor:pointer}
+#c img{width:150px;height:150px;margin-bottom:18px;animation:surge .7s cubic-bezier(.2,.75,.15,1) both}
+.sulcos{width:132px;height:80px;overflow:visible;margin-bottom:10px}
+.sulcos path{fill:none;stroke-linecap:round;stroke-dasharray:150;stroke-dashoffset:150;animation:desenha 1.6s cubic-bezier(.65,0,.35,1) infinite}
+.sulcos path:nth-child(1){stroke:#E07A0B;stroke-width:9}
+.sulcos path:nth-child(2){stroke:#F4F7F4;stroke-width:8;animation-delay:.15s}
+.sulcos path:nth-child(3){stroke:#E07A0B;stroke-width:10;animation-delay:.3s}
+@keyframes desenha{0%{stroke-dashoffset:150}45%,60%{stroke-dashoffset:0}100%{stroke-dashoffset:-150}}
+@keyframes surge{from{opacity:0;transform:translateY(10px) scale(.96)}to{opacity:1;transform:none}}
+#msg{font-size:15px;opacity:.9;max-width:300px;line-height:1.4;min-height:1.4em;transition:opacity .3s}
+#denovo{display:none;margin-top:18px;background:#E07A0B;color:#1B1206;border:0;border-radius:8px;padding:11px 26px;font-size:15px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
 <div id="c">
   <img src="/icon-512.png" alt="AGRO FAZU">
-  <div class="giro" id="giro"></div>
-  <div id="msg">Carregando o portal da AGRO FAZU...</div>
+  <svg class="sulcos" id="sulcos" viewBox="0 0 132 80" aria-hidden="true"><path d="M6 58 Q56 22 126 10"/><path d="M6 70 Q56 38 126 30"/><path d="M6 82 Q56 54 126 50"/></svg>
+  <div id="msg">Abrindo o portal...</div>
   <button id="denovo" onclick="location.reload()">Tentar de novo</button>
 </div>
 <script>
 // App instalável: registra o "service worker" (necessário para instalar no celular).
 if ('serviceWorker' in navigator) { navigator.serviceWorker.register('/sw.js').catch(function () {}); }
 
+var API = 'https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec';
+var CHAVE_SESSAO = 'agrofazu_sessao';   // onde o portal guarda o login neste aparelho
+var CHAVE_TELA = 'agrofazu_tela';       // cópia da tela do portal, para abrir na hora
+
 // Tags do app que precisam continuar na página depois que o portal é carregado.
-var APP_HEAD = '<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#104526">' +
+var APP_HEAD = '<link rel="manifest" href="/manifest.webmanifest"><meta name="theme-color" content="#0F3D22">' +
   '<link rel="icon" type="image/png" href="/favicon.png"><link rel="apple-touch-icon" href="/apple-touch-icon.png">' +
   '<meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes">' +
   '<meta name="apple-mobile-web-app-title" content="AGRO FAZU"><meta name="apple-mobile-web-app-status-bar-style" content="default">' +
   '<meta name="robots" content="noindex, nofollow">';
 
-fetch('https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec', { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify({ fn: 'pagina' }) })
-  .then(function (r) { return r.json(); })
-  .then(function (r) {
-    if (!r.ok) throw new Error();
-    var html = r.html.replace(/<head>/i, '<head>' + APP_HEAD);
-    document.open(); document.write(html); document.close();
-  })
-  .catch(function () {
-    document.getElementById('giro').style.display = 'none';
-    document.getElementById('msg').textContent = navigator.onLine === false
-      ? 'Sem internet. Conecte-se e tente de novo.'
-      : 'Não foi possível carregar o portal. Verifique a internet e tente de novo.';
-    document.getElementById('denovo').style.display = 'inline-block';
-  });
+function pedir(corpo) {
+  return fetch(API, { method: 'POST', credentials: 'omit', headers: { 'Content-Type': 'text/plain;charset=utf-8' }, body: JSON.stringify(corpo) })
+    .then(function (r) { if (!r.ok) throw new Error('http'); return r.json(); });
+}
+
+// 1) Quem já tem login salvo: pede os dados ao mesmo tempo que a tela, em vez de esperar a tela chegar.
+try {
+  var token = localStorage.getItem(CHAVE_SESSAO);
+  if (token) window.__carregarAntecipado = { token: token, promessa: pedir({ fn: 'api', args: [token, 'carregar', {}] }) };
+} catch (e) {}
+
+function abrir(html) {
+  document.open(); document.write(html.replace(/<head>/i, '<head>' + APP_HEAD)); document.close();
+}
+
+function falhou() {
+  document.getElementById('sulcos').style.display = 'none';
+  document.getElementById('msg').textContent = navigator.onLine === false
+    ? 'Sem internet. Conecte-se e tente de novo.'
+    : 'Não foi possível carregar o portal. Verifique a internet e tente de novo.';
+  document.getElementById('denovo').style.display = 'inline-block';
+}
+
+// 2) A tela do portal: usa a cópia guardada para abrir na hora e busca a versão nova ao mesmo tempo.
+var guardada = null;
+try { guardada = localStorage.getItem(CHAVE_TELA); } catch (e) {}
+
+var nova = pedir({ fn: 'pagina' }).then(function (r) {
+  if (!r || !r.ok) throw new Error('pagina');
+  try { localStorage.setItem(CHAVE_TELA, r.html); } catch (e) {}
+  return r.html;
+});
+
+if (guardada) {
+  abrir(guardada);
+  // Se o portal foi atualizado desde a última visita, avisa e oferece recarregar
+  nova.then(function (html) {
+    if (html === guardada) return;
+    var faixa = document.createElement('div');
+    faixa.setAttribute('role', 'status');
+    faixa.style.cssText = 'position:fixed;left:50%;bottom:90px;transform:translateX(-50%);z-index:90;background:#0F3D22;color:#fff;padding:10px 14px;border-radius:8px;font:14px "Segoe UI",Arial,sans-serif;display:flex;gap:12px;align-items:center;box-shadow:0 10px 24px -12px rgba(0,0,0,.5)';
+    faixa.innerHTML = 'Há uma versão nova do portal. <button style="background:#E07A0B;color:#1B1206;border:0;border-radius:6px;padding:6px 12px;font-weight:600;cursor:pointer">Atualizar</button>';
+    faixa.querySelector('button').onclick = function () { location.reload(); };
+    document.body.appendChild(faixa);
+  }).catch(function () {});
+} else {
+  setTimeout(function () { var m = document.getElementById('msg'); if (m) m.textContent = 'Buscando seus dados...'; }, 1800);
+  nova.then(abrir).catch(falhou);
+}
 </script>
 </body>
 </html>
