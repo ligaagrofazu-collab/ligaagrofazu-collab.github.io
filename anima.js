@@ -151,6 +151,27 @@
     });
   }
 
+  /* ---------- Menu do celular: estado para leitores de tela, fecha com Esc, toque fora e teclado ---------- */
+  var caixaMenu = document.getElementById('menu-celular');
+  var botaoMenu = document.querySelector('.abrir-menu');
+  if (caixaMenu && botaoMenu) {
+    var sincronizarMenu = function () {
+      botaoMenu.setAttribute('aria-expanded', caixaMenu.checked ? 'true' : 'false');
+      botaoMenu.setAttribute('aria-label', caixaMenu.checked ? 'Fechar o menu' : 'Abrir o menu');
+    };
+    caixaMenu.addEventListener('change', sincronizarMenu);
+    botaoMenu.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); caixaMenu.checked = !caixaMenu.checked; sincronizarMenu(); }
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && caixaMenu.checked) { caixaMenu.checked = false; sincronizarMenu(); botaoMenu.focus(); }
+    });
+    document.addEventListener('click', function (e) {
+      if (caixaMenu.checked && !e.target.closest('.cabecalho')) { caixaMenu.checked = false; sincronizarMenu(); }
+    });
+    sincronizarMenu();
+  }
+
   /* ---------- Cartões que abrem ----------
      Um cartão com <div class="cartao-mais"> ganha um botão no título.
      Ao tocar no cartão, o conteúdo extra se abre; os outros cartões do mesmo grupo se fecham.

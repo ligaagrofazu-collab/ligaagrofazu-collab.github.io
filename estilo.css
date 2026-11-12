@@ -14,7 +14,13 @@
   --verde:var(--mata);--verde-escuro:var(--mata-noite);--laranja:var(--colheita);--borda:var(--linha);--fundo:#fff;--texto:var(--tinta)
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%;color-scheme:light}
+/* Troca de página com uma transição suave (navegadores que suportam) */
+@view-transition{navigation:auto}
+.cabecalho{view-transition-name:cabecalho}
+/* Link "pular para o conteúdo": só aparece ao navegar pelo teclado */
+.pular{position:absolute;left:16px;top:-80px;z-index:60;background:var(--colheita);color:#1B1206;padding:10px 16px;border-radius:8px;font-weight:600;text-decoration:none;transition:top .2s}
+.pular:focus{top:16px;outline:3px solid #1B1206;outline-offset:2px}
 @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
 body{margin:0;font-family:Archivo,"Segoe UI",Arial,sans-serif;font-size:17px;line-height:1.6;color:var(--tinta);background:#fff;-webkit-font-smoothing:antialiased}
 h1,h2,h3,.marca,.botao,.nome,.iniciais{font-family:Archivo,"Segoe UI",Arial,sans-serif;font-stretch:112%}
@@ -61,6 +67,10 @@ img{max-width:100%}
 .topo .sobretitulo{color:#F6B567}
 .topo h1{margin:0;font-weight:700;font-stretch:118%;font-size:clamp(40px,6.2vw,70px);line-height:1.02;letter-spacing:-.015em;text-wrap:balance}
 .topo p{margin:0;max-width:33em;font-size:19px;line-height:1.55;color:#CFDFD4}
+/* Fatos rápidos no topo da página inicial */
+.fatos{display:flex;flex-wrap:wrap;gap:10px 26px;margin:6px 0 0;padding:0;list-style:none;font-size:15px;font-weight:500;color:#CFDFD4}
+.fatos li{display:flex;align-items:center;gap:8px}
+.fatos svg{flex-shrink:0;color:var(--colheita)}
 .topo-interno::after{width:30%}
 .topo-interno .caixa{padding-top:72px;padding-bottom:80px}
 .topo-interno h1{font-size:clamp(34px,4.8vw,54px)}
@@ -91,6 +101,19 @@ p{text-wrap:pretty}
 .lista-check li{display:flex;gap:12px;align-items:flex-start}
 .lista-check svg{flex-shrink:0;margin-top:4px}
 
+/* Passos em sequência (como começa uma parceria) */
+.passos{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;margin-top:12px;counter-reset:passo}
+.passo{position:relative;display:flex;flex-direction:column;gap:10px;padding-top:4px}
+.passo::before{counter-increment:passo;content:counter(passo);display:flex;align-items:center;justify-content:center;width:46px;height:46px;margin-bottom:8px;border-radius:50%;background:var(--mata);color:#fff;font-weight:700;font-size:19px;font-stretch:112%}
+.passo::after{content:"";position:absolute;top:27px;left:58px;right:-22px;height:1px;background:var(--linha)}
+.passo:last-child::after{display:none}
+.passo h3{margin:0}
+.passo p{margin:0;font-size:16px;color:var(--suave)}
+@media (max-width:820px){.passos{grid-template-columns:1fr;gap:24px}.passo::after{display:none}}
+
+/* Botão do WhatsApp: verde da liga, com o ícone */
+.botao svg{flex-shrink:0;margin-right:10px}
+
 /* Chamada no fim das páginas */
 .chamada{background:var(--nevoa);border-top:1px solid var(--linha)}
 .chamada .caixa{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:28px}
@@ -112,6 +135,7 @@ p{text-wrap:pretty}
 .contato-item{flex-direction:row;gap:16px;align-items:flex-start}
 .contato-item>svg{flex-shrink:0;margin:3px 0 0}
 .contato-item strong{display:block;margin-bottom:2px;font-weight:600;color:var(--mata)}
+.contato-item .botao{display:inline-flex}
 
 /* Rodapé */
 .rodape{background:var(--mata-noite);color:#BFD1C5;font-size:15px}
@@ -122,6 +146,26 @@ p{text-wrap:pretty}
 .rodape .titulo{font-weight:600;color:#fff}
 .rodape .nome{font-weight:800;font-size:20px;letter-spacing:.02em;color:#fff}
 .rodape .nome span{color:var(--colheita)}
+.rodape .base{border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:#8FA898}
+.rodape .base .caixa{padding-top:18px;padding-bottom:18px;gap:8px 24px;justify-content:flex-start}
+.rodape .base a{color:#BFD1C5}
+
+/* Página não encontrada */
+.nao-achada .caixa{padding-top:72px;padding-bottom:80px}
+.nao-achada .codigo{display:block;font-size:15px;font-weight:600;color:#F6B567;margin-bottom:8px}
+
+/* Impressão: só o conteúdo */
+@media print{
+  .cabecalho,.faixa,.chamada,.abrir-menu,.pular,.progresso{display:none!important}
+  .topo{background:none!important;color:#000}
+  .topo::after,.topo::before,.campo{display:none!important}
+  .topo h1,.topo p,.topo .sobretitulo,.fatos{color:#000!important}
+  .botao{display:none!important}
+  section{padding:24px 0}
+  .rodape{background:none;color:#000}
+  .rodape a{color:#000}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:12px}
+}
 
 @media (max-width:1080px){
   .abrir-menu{display:inline-flex;align-items:center;justify-content:center;width:46px;height:46px;border:1px solid var(--linha);border-radius:8px;cursor:pointer}
