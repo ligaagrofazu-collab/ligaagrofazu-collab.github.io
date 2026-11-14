@@ -186,3 +186,16 @@ p{text-wrap:pretty}
   .lado-a-lado{gap:32px}
   .foto{min-height:220px}
 }
+
+/* Logo terciária no cabeçalho: selo redondo + nome (manual da marca, página 4) */
+.marca{gap:9px}
+.marca .marca-selo{width:56px;height:56px;border-radius:50%}
+.marca .marca-texto{display:flex;flex-direction:column;gap:6px}
+.marca .marca-nome{width:130px;height:30px;border-radius:0}
+/* Linha verde no lugar da frase */
+.marca .marca-linha{display:block;width:100%;height:3px;border-radius:2px;background:var(--mata);transform-origin:0 50%}
+@media (max-width:1080px){
+  .marca .marca-selo{width:48px;height:48px}
+  .marca .marca-nome{width:113px;height:26px}
+  .marca .marca-texto{gap:5px}
+}

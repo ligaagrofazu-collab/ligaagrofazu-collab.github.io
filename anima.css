@@ -131,3 +131,34 @@
 .calmo .botao:active{transform:none}
 .calmo .faixa{overflow-x:auto;scrollbar-width:none}
 .calmo .faixa::-webkit-scrollbar{display:none}
+
+/* Logo do cabeçalho: na primeira página da visita, o selo gira e se abre como um carimbo
+   e o nome aparece da esquerda para a direita. Ao passar o mouse, o selo dá um giro curto. */
+.logo-entra .marca .marca-selo{animation:seloEntra 1s cubic-bezier(.2,.9,.25,1.2) .1s both}
+.logo-entra .marca .marca-nome{animation:nomeEntra .75s cubic-bezier(.2,.75,.15,1) .55s both}
+@keyframes seloEntra{
+  0%{opacity:0;transform:rotate(-160deg) scale(.35);clip-path:circle(0% at 50% 50%)}
+  55%{opacity:1}
+  100%{opacity:1;transform:none;clip-path:circle(51% at 50% 50%)}
+}
+@keyframes nomeEntra{
+  from{opacity:0;clip-path:inset(0 100% 0 0);transform:translateX(-8px)}
+  to{opacity:1;clip-path:inset(0 0 0 0);transform:none}
+}
+.marca .marca-selo{transition:transform .7s cubic-bezier(.3,1.5,.5,1)}
+@media (hover:hover){
+  .marca:hover .marca-selo{transform:rotate(-14deg) scale(1.06)}
+}
+.marca:active .marca-selo{transform:rotate(-14deg) scale(.96)}
+/* Modo calmo: só aparece, sem giro */
+.calmo .marca .marca-selo,.calmo .marca .marca-nome{animation-name:aparece;transform:none}
+.calmo .marca:hover .marca-selo{transform:none}
+
+/* Linha da logo: é desenhada da esquerda para a direita logo depois do nome,
+   e se desenha de novo ao passar o mouse na logo */
+.logo-entra .marca .marca-linha{animation:linhaEntra .7s cubic-bezier(.65,0,.35,1) 1.15s both}
+@keyframes linhaEntra{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@media (hover:hover){
+  .marca:hover .marca-linha{animation:linhaEntra .6s cubic-bezier(.65,0,.35,1) both}
+}
+.calmo .marca .marca-linha,.calmo .marca:hover .marca-linha{animation:none}
