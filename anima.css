@@ -185,3 +185,9 @@
   .topo:has(+ .lavoura)>.caixa{padding-bottom:44px}
   .lavoura::before{height:32%}
 }
+/* A luz que acompanha o mouse no topo se apaga antes do fim do topo,
+   para não marcar uma borda reta onde a lavoura começa */
+.topo:has(+ .lavoura)::before{
+  -webkit-mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 92%);
+  mask-image:linear-gradient(to bottom,#000 0,#000 55%,transparent 92%);
+}
