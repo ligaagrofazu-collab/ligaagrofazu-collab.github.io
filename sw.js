@@ -1,7 +1,7 @@
 // AGRO FAZU — app instalável. Guarda só a tela de abertura e os ícones;
 // os dados do portal vêm sempre do servidor (nada da liga fica salvo aqui).
 // Também recebe as notificações: quando uma chega, pergunta ao portal quais são os avisos novos e mostra na tela.
-const CACHE = 'agrofazu-v3';
+const CACHE = 'agrofazu-v4';   // v4: apaga as cópias de páginas do site que a versão anterior guardava
 const ARQUIVOS = ['/portal/', '/portal/index.html', '/manifest.webmanifest', '/icon-192.png', '/icon-512.png', '/icon-maskable-512.png', '/apple-touch-icon.png', '/favicon.png'];
 const API = 'https://script.google.com/macros/s/AKfycbyIhh2gbRN4V_uqxy9U3yzJP-GT4PbIiMVhXxbZ_omgEyVcIfTPwL8zVVRdWKHke_jnnw/exec';
 
@@ -16,9 +16,14 @@ self.addEventListener('activate', function (e) {
 });
 
 // Sempre tenta a internet primeiro (para pegar atualizações); sem internet, usa a cópia guardada.
+// Só cuida do portal e dos ícones do app: as outras páginas do site vão direto para a internet,
+// sem passar por aqui (assim não ficam mais lentas nem enchem o celular de cópias).
 self.addEventListener('fetch', function (e) {
   const req = e.request;
-  if (req.method !== 'GET' || new URL(req.url).origin !== self.location.origin) return;
+  if (req.method !== 'GET') return;
+  const url = new URL(req.url);
+  if (url.origin !== self.location.origin) return;
+  if (url.pathname.indexOf('/portal/') !== 0 && ARQUIVOS.indexOf(url.pathname) < 0) return;
   e.respondWith(fetch(req).then(function (resp) {
     if (resp.ok) { const copia = resp.clone(); caches.open(CACHE).then(function (c) { c.put(req, copia); }); }
     return resp;

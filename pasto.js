@@ -923,21 +923,20 @@
     b.alvo = null; b.desvios = null; b.travas = 0; b.chave = null; b.chaveAlvo = null;
   }
 
+  // No sal do chão cabem só dois: um de cada lado do montinho
   function irAoSal(b, m) {
     var vaga = b.x <= m.x ? 0 : 1;
-    if (m.vagas[vaga]) vaga = 2;
+    if (m.vagas[vaga]) vaga = 1 - vaga;
     if (m.vagas[vaga]) return false;
     soltarSal(b);
     m.vagas[vaga] = b; b.monte = m; b.vaga = vaga; b.estado = 'sal';
     return true;
   }
 
-  // Onde o boi fica para alcançar o sal com a boca: de um lado, do outro, ou um pouco à frente
+  // Onde o boi fica para alcançar o sal com a boca: de um lado ou do outro do montinho
   function vagaNoSal(b) {
     var m = b.monte, u = escala(m.y) * L / 100 * b.tam, alcance = 57 * u * (b.tipo === 'bezerro' ? 1.1 : 1);
-    if (b.vaga === 0) return { x: m.x - alcance, y: m.y };
-    if (b.vaga === 1) return { x: m.x + alcance, y: m.y };
-    return { x: m.x - alcance * 0.9, y: limitar(m.y + 16 * escala(m.y), Y_MIN, Y_MAX) };
+    return { x: b.vaga === 0 ? m.x - alcance : m.x + alcance, y: m.y };
   }
 
   function passear(b) {
@@ -1089,12 +1088,12 @@
   function darSal(x, y) {
     x = limitar(x, 20, W - 20);
     y = limitar(y, Y_MIN - 6, Y_MAX - 4);
-    var m = { x: x, y: y, qtd: 1, pop: 0, vagas: [null, null, null] };
+    var m = { x: x, y: y, qtd: 1, pop: 0, vagas: [null, null] };   // só dois lugares
     montes.push(m);
     if (montes.length > 3) montes.shift().qtd = 0;
     var livres = bois.filter(function (b) { return livreParaIr(b); });
     livres.sort(function (a, b) { return Math.hypot(a.x - x, a.y - y) - Math.hypot(b.x - x, b.y - y); });
-    var quantos = estreita ? 2 : 3;
+    var quantos = 2;
     for (var i = 0; i < livres.length && quantos > 0; i++) if (irAoSal(livres[i], m)) quantos--;
     if (dica && !dica.classList.contains('some')) dica.classList.add('some');
   }

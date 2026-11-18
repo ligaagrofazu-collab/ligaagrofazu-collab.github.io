@@ -105,17 +105,19 @@
   }
   function revelarChegados() {
     if (!pendentes.length) return;
-    var limite = window.innerHeight * 0.92;
+    // Primeiro mede todos, depois muda: medir e mudar alternado obriga o navegador a recalcular a página várias vezes
+    var limite = window.innerHeight * 0.92, chegaram = [];
     pendentes = pendentes.filter(function (el) {
       if (el.getBoundingClientRect().top > limite) return true;
+      chegaram.push(el);
+      return false;
+    });
+    chegaram.forEach(function (el) {
       el.classList.add('visivel');
       fotos.forEach(function (f) { if (f.foto === el) f.desenhar(); });
-      return false;
     });
   }
   revelarChegados();
-  window.addEventListener('scroll', revelarChegados, { passive: true });
-  window.addEventListener('resize', revelarChegados);
 
   /* ---------- Mouse: luz no topo, sulcos com profundidade, botões atraídos ---------- */
   var mx = 0, my = 0;
@@ -126,16 +128,18 @@
       topo.style.setProperty('--my', (e.clientY - r.top) + 'px');
       mx = (e.clientX - r.left) / r.width * 2 - 1;
       my = (e.clientY - r.top) / r.height * 2 - 1;
+      pedirQuadro();
     });
-    if (topo) topo.addEventListener('pointerleave', function () { mx = 0; my = 0; });
+    if (topo) topo.addEventListener('pointerleave', function () { mx = 0; my = 0; pedirQuadro(); });
 
     fotos.forEach(function (f) {
       f.foto.addEventListener('pointermove', function (e) {
         var r = f.foto.getBoundingClientRect();
         f.mx = (e.clientX - r.left) / r.width * 2 - 1;
         f.my = (e.clientY - r.top) / r.height * 2 - 1;
+        pedirQuadro();
       });
-      f.foto.addEventListener('pointerleave', function () { f.mx = 0; f.my = 0; });
+      f.foto.addEventListener('pointerleave', function () { f.mx = 0; f.my = 0; pedirQuadro(); });
     });
 
     [].forEach.call(document.querySelectorAll('.botao'), function (b) {
@@ -208,32 +212,49 @@
     cartao.querySelector('.cartao-mais').inert = !abrir;
   }
 
-  /* ---------- Laço de animação: rolagem, sulcos e faixa ---------- */
+  /* ---------- Laço de animação: rolagem, sulcos e faixa ----------
+     Só roda quando há o que mudar (rolagem, mouse, sulcos ainda se acomodando ou a faixa correndo).
+     Com a página parada, ele dorme e não gasta processador nem bateria. */
   var ultimoY = window.scrollY, velocidade = 0, posFaixa = 0;
   var sx = 0, sy = 0; /* mouse suavizado */
+  var agendado = false, ultimaBarra = -1;
+  function pedirQuadro() { if (!agendado) { agendado = true; requestAnimationFrame(quadro); } }
+  // Muda o atributo só se o valor mudou de verdade (evita redesenhar o SVG à toa)
+  function mover(g, x, y) {
+    var t = 'translate(' + x.toFixed(2) + ' ' + y.toFixed(2) + ')';
+    if (g._t !== t) { g._t = t; g.setAttribute('transform', t); }
+  }
   function quadro() {
+    agendado = false;
+    var continuar = false;
     var y = window.scrollY;
     var delta = y - ultimoY; ultimoY = y;
     velocidade += (delta - velocidade) * 0.12;
+    if (Math.abs(velocidade) > 0.05) continuar = true;
 
     if (barra) {
       var total = document.documentElement.scrollHeight - window.innerHeight;
-      barra.style.setProperty('--p', total > 0 ? Math.min(y / total, 1) : 0);
+      var p = total > 0 ? Math.round(Math.min(y / total, 1) * 1000) / 1000 : 0;
+      if (p !== ultimaBarra) { ultimaBarra = p; barra.style.setProperty('--p', p); }
     }
+
+    revelarChegados();
 
     if (!calmo) {
       sx += (mx - sx) * 0.07; sy += (my - sy) * 0.07;
+      if (Math.abs(mx - sx) > 0.002 || Math.abs(my - sy) > 0.002) continuar = true;
       if (campoTopo && y < window.innerHeight * 1.2) {
         campoTopo.grupos.forEach(function (g, i) {
           var prof = i + 1;
-          g.setAttribute('transform', 'translate(' + (sx * prof * 4) + ' ' + (sy * prof * 3 - y * (0.05 + i * 0.035)) + ')');
+          mover(g, sx * prof * 4, sy * prof * 3 - y * (0.05 + i * 0.035));
         });
       }
       fotos.forEach(function (f) {
         f.sx = (f.sx || 0) + ((f.mx || 0) - (f.sx || 0)) * 0.08;
         f.sy = (f.sy || 0) + ((f.my || 0) - (f.sy || 0)) * 0.08;
+        if (Math.abs((f.mx || 0) - f.sx) > 0.002 || Math.abs((f.my || 0) - f.sy) > 0.002) continuar = true;
         f.grupos.forEach(function (g, i) {
-          g.setAttribute('transform', 'translate(' + (f.sx * (i + 1) * 5) + ' ' + (f.sy * (i + 1) * 4) + ')');
+          mover(g, f.sx * (i + 1) * 5, f.sy * (i + 1) * 4);
         });
       });
       if (trilho) {
@@ -242,9 +263,12 @@
         if (velocidade < -0.5) posFaixa += Math.abs(velocidade) * 1.0; /* rolando para cima, a faixa volta */
         if (metade > 0) { posFaixa = posFaixa % metade; if (posFaixa > 0) posFaixa -= metade; }
         trilho.style.transform = 'translate3d(' + posFaixa + 'px,0,0)';
+        continuar = true; /* a faixa corre sempre */
       }
     }
-    requestAnimationFrame(quadro);
+    if (continuar) pedirQuadro();
   }
-  requestAnimationFrame(quadro);
+  window.addEventListener('scroll', pedirQuadro, { passive: true });
+  window.addEventListener('resize', pedirQuadro);
+  pedirQuadro();
 })();
