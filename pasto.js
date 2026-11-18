@@ -94,7 +94,7 @@
       servir: servirRacao,
       pegar: function (b, x, y) { pegar(b, { x: x, y: y }, { pointerId: 0 }); },
       mover: function (x, y) { if (segurando) { segurando.alvoX = x + segurando.dx; segurando.alvoY = y + segurando.dy; } },
-      largar: largar,
+      largar: largar, unidade: unidade, pontoCocho: pontoCocho,
       mouse: function (x, y) { mouse.x = x; mouse.y = y; mouse.ativo = true; mouse.ultimo = performance.now(); }
     };
   }
@@ -784,8 +784,8 @@
     function centroEm(y) { return pontoCocho(limitar((y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1)).x; }
     var A = b.x < centroEm(b.y) ? -1 : 1, B = alvo.x < centroEm(alvo.y) ? -1 : 1;
     function plano(ponta, yFora) {
-      var lista = [{ x: ponta.x + A * (ponta.mw + 30 * u), y: yFora }];
-      if (B !== A) lista.push({ x: ponta.x + B * (ponta.mw + 30 * u), y: yFora });
+      var lista = [{ x: ponta.x + A * (ponta.mw + 58 * u), y: yFora }];
+      if (B !== A) lista.push({ x: ponta.x + B * (ponta.mw + 58 * u), y: yFora });
       // Se já está fora do comprimento do cocho, não precisa do primeiro ponto
       if (B !== A && (b.y < cocho.F.y - 10 * u || b.y > cocho.N.y + 10 * u)) lista.shift();
       return lista;
@@ -802,13 +802,28 @@
     return melhor;
   }
 
+  // Um destino em cima do cocho (ou tão perto que o corpo do boi ficaria sobre ele) vai para o lado mais perto
+  function tirarDoCocho(p, u) {
+    if (!pertoDoCocho(p.x, p.y, 55 * u)) return null;
+    var q = pontoCocho(limitar((p.y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1));
+    var lado = p.x >= q.x ? 1 : -1, x = q.x + lado * (q.mw + 62 * u);
+    if (x < 40 || x > W - 40) x = q.x - lado * (q.mw + 62 * u);
+    return { x: x, y: p.y };
+  }
+
   function andar(b, vel, dt) {
     var u = unidade(b);
+    if (b.estado !== 'cocho') { var fora = tirarDoCocho(b.alvo, u); if (fora) b.alvo = fora; }
     // Destino novo: esquece o plano antigo
     var chaveAlvo = Math.round(b.alvo.x) + ',' + Math.round(b.alvo.y);
     if (b.chaveAlvo !== chaveAlvo) { b.chaveAlvo = chaveAlvo; b.desvios = null; b.contornou = false; }
     // Se o caminho reto passa pelo cocho, planeja a volta (uma vez só para cada destino)
-    if (!b.desvios && !b.contornou && cruzaCocho(b.x, b.y, b.alvo.x, b.alvo.y, 22 * u)) b.desvios = planoDeContorno(b, b.alvo, false);
+    // (quem já está encostado no cocho e vai para o mesmo lado só se afasta, sem dar a volta)
+    if (!b.desvios && !b.contornou && cruzaCocho(b.x, b.y, b.alvo.x, b.alvo.y, 22 * u)) {
+      var qc = pontoCocho(limitar((b.y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1));
+      var mesmoLado = (b.x - qc.x) * (b.alvo.x - qc.x) > 0;
+      if (!(pertoDoCocho(b.x, b.y, 22 * u) && mesmoLado)) b.desvios = planoDeContorno(b, b.alvo, false);
+    }
     var alvo = b.desvios && b.desvios.length ? b.desvios[0] : b.alvo;
     var dx = alvo.x - b.x, dy = alvo.y - b.y, d = Math.sqrt(dx * dx + dy * dy);
     if (alvo !== b.alvo && d < 8) {
@@ -840,7 +855,7 @@
     // E do cocho: contorna em vez de atravessar
     if (b.y > cocho.F.y - 25 * u && b.y < cocho.N.y + 18 * u) {
       var p = pontoCocho(limitar((b.y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1));
-      var lx = b.x - p.x, folga = p.mw + 48 * u;
+      var lx = b.x - p.x, folga = p.mw + 58 * u;
       if (Math.abs(lx) < folga) rx += (lx >= 0 ? 1 : -1) * (1 - Math.abs(lx) / folga) * 1.8;
     }
     var perto = alvo !== b.alvo ? 1 : limitar(d / (40 * u), 0, 1);   // chegando, desvia menos, para conseguir parar no lugar
@@ -926,17 +941,20 @@
   // No sal do chão cabem só dois: um de cada lado do montinho
   function irAoSal(b, m) {
     var vaga = b.x <= m.x ? 0 : 1;
-    if (m.vagas[vaga]) vaga = 1 - vaga;
-    if (m.vagas[vaga]) return false;
+    // O lado que ficaria encostado no cocho não serve
+    function serve(v) { var p = posicaoNoSal(m, b, v); return !m.vagas[v] && !pertoDoCocho(p.x, p.y, 50 * escala(m.y) * L / 100 * b.tam); }
+    if (!serve(vaga)) vaga = 1 - vaga;
+    if (!serve(vaga)) return false;
     soltarSal(b);
     m.vagas[vaga] = b; b.monte = m; b.vaga = vaga; b.estado = 'sal';
     return true;
   }
 
   // Onde o boi fica para alcançar o sal com a boca: de um lado ou do outro do montinho
-  function vagaNoSal(b) {
-    var m = b.monte, u = escala(m.y) * L / 100 * b.tam, alcance = 57 * u * (b.tipo === 'bezerro' ? 1.1 : 1);
-    return { x: b.vaga === 0 ? m.x - alcance : m.x + alcance, y: m.y };
+  function vagaNoSal(b) { return posicaoNoSal(b.monte, b, b.vaga); }
+  function posicaoNoSal(m, b, v) {
+    var u = escala(m.y) * L / 100 * b.tam, alcance = 57 * u * (b.tipo === 'bezerro' ? 1.1 : 1);
+    return { x: v === 0 ? m.x - alcance : m.x + alcance, y: m.y };
   }
 
   function passear(b) {
@@ -980,19 +998,21 @@
       // Caindo: gravidade, um quique pequeno e volta a pastar, meio assustado
       b.vy += 2300 * u * dt;
       b.alturaAr -= b.vy * dt;
+      if (b.pousoX != null) b.x += (b.pousoX - b.x) * Math.min(1, dt * 9);   // indo para o lado do cocho no ar
       b.balanco *= Math.max(0, 1 - dt * 5);
       b.andando += (0.4 - b.andando) * Math.min(1, dt * 6);
       if (b.alturaAr <= 0) {
         b.alturaAr = 0;
         if (b.vy > 260 * u) { b.vy = -b.vy * 0.28; b.alturaAr = 0.01; }
         else {
+          if (b.pousoX != null) { b.x = b.pousoX; b.pousoX = null; }
           b.vy = 0; b.balanco = 0; b.erguido = false;
           voltarAPastar(b);
           b.levanta = 1.4; b.caudaForca = 1; b.t = 1 + Math.random() * 2;
-          if (pertoDoCocho(b.x, b.y, 50 * u)) {
+          if (pertoDoCocho(b.x, b.y, 58 * u)) {
             // Caiu em cima do cocho (ou colado nele): sai para o lado mais perto
             var p = pontoCocho(limitar((b.y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1));
-            b.alvo = { x: limitar(p.x + (b.x >= p.x ? 1 : -1) * (p.mw + 70 * u), 50, W - 50), y: b.y };
+            b.alvo = { x: limitar(p.x + (b.x >= p.x ? 1 : -1) * (p.mw + 72 * u), 50, W - 50), y: b.y };
             b.estado = 'andar'; b.levanta = 0;
           }
         }
@@ -1022,6 +1042,12 @@
     } else if (!ocupado && b.estado !== 'fugir' && d < 240 * u) {
       // Curiosidade: para e olha
       b.estado = 'olhar'; b.t = 0.9;
+    }
+
+    // Parado encostado no cocho (pastando ou olhando): dá uns passos para o lado
+    if ((b.estado === 'pastar' || b.estado === 'olhar') && pertoDoCocho(b.x, b.y, 40 * u)) {
+      var saida = tirarDoCocho({ x: b.x, y: b.y }, u);
+      if (saida) { b.alvo = saida; b.estado = 'andar'; }
     }
 
     switch (b.estado) {
@@ -1088,6 +1114,13 @@
   function darSal(x, y) {
     x = limitar(x, 20, W - 20);
     y = limitar(y, Y_MIN - 6, Y_MAX - 4);
+    // Sal jogado em cima do cocho (ou colado nele) cai do lado
+    var u0 = escala(y) * L / 100;
+    if (pertoDoCocho(x, y, 30 * u0)) {
+      var q = pontoCocho(limitar((y - cocho.F.y) / (cocho.N.y - cocho.F.y), 0, 1)), lado = x >= q.x ? 1 : -1;
+      x = q.x + lado * (q.mw + 30 * u0);
+      if (x < 20 || x > W - 20) x = q.x - lado * (q.mw + 30 * u0);
+    }
     var m = { x: x, y: y, qtd: 1, pop: 0, vagas: [null, null] };   // só dois lugares
     montes.push(m);
     if (montes.length > 3) montes.shift().qtd = 0;
@@ -1129,7 +1162,8 @@
     for (var m = 0; m < montes.length; m++) objs.push(montes[m]);
     for (var fc = 0; fc < cocho.fatias.length; fc++) objs.push(cocho.fatias[fc]);
     // O cocho entra pela ponta de longe: quem está ao lado dele fica por cima, com a cabeça sobre a ração
-    function prof(o) { return o.ehFatia ? o.y - 0.5 : o.vagas ? o.y - 0.5 : o.y; }
+    // Boi no ar (sendo carregado ou caindo) fica por cima de tudo, até do cocho
+    function prof(o) { return o.ehFatia ? o.y - 0.5 : o.vagas ? o.y - 0.5 : o.alturaAr > 0.5 ? 1e6 + o.y : o.y; }
     objs.sort(function (a, b) { return prof(a) - prof(b); });
     var i = 0;
     for (var o = 0; o < objs.length; o++) {
@@ -1198,7 +1232,10 @@
   function largar() {
     if (!segurando) return;
     var b = segurando.boi;
-    b.estado = 'cair'; b.vy = 0;
+    b.estado = 'cair'; b.vy = 0; b.pousoX = null;
+    // Solto em cima do cocho (ou colado nele): dá um pulinho e cai do lado
+    var fora = tirarDoCocho({ x: b.x, y: b.y }, unidade(b));
+    if (fora) { b.pousoX = fora.x; b.vy = -260 * unidade(b); }
     segurando = null;
     tela.style.cursor = '';
   }
