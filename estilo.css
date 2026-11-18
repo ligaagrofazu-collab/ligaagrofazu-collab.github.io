@@ -146,6 +146,8 @@ p{text-wrap:pretty}
 .rodape .titulo{font-weight:600;color:#fff}
 .rodape .nome{font-weight:800;font-size:20px;letter-spacing:.02em;color:#fff}
 .rodape .nome span{color:var(--colheita)}
+.rodape .nome-logo{display:block;align-self:flex-start;width:auto;height:40px;margin-bottom:6px}
+@media (max-width:820px){.rodape .nome-logo{height:32px}}
 .rodape .base{border-top:1px solid rgba(255,255,255,.12);font-size:14px;color:#8FA898}
 .rodape .base .caixa{padding-top:18px;padding-bottom:18px;gap:8px 24px;justify-content:flex-start}
 .rodape .base a{color:#BFD1C5}
