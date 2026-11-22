@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://ligaagrofazu-collab.github.io/sitemap.xml
+Sitemap: https://agrofazu.com.br/sitemap.xml
